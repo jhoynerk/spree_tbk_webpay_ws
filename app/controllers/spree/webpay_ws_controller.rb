@@ -66,7 +66,6 @@ module Spree
     end
 
     def success
-      binding.pry
       # To clean the Cart
       session[:order_id] = nil
       @current_order     = nil
