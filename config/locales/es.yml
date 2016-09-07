@@ -1,0 +1,31 @@
+es:
+  spree:
+    order_state:
+      webpay_ws: webpay
+    webpay_ws_redirect: Usted será redirigido a página de pago de Webpay. Después de completar el formulario de pago volverá a la tienda.
+    webpay_ws_try_again_or_later: 'Se ha producido un error, inténtalo de nuevo ó más tarde'
+    webpay_ws_payment_successfully_completed: Pago completado con éxito
+    webpay_ws_payment_process_completed: Proceso de pago completado
+    webpay_ws_payment_incompleted: Transacción Fracasada
+    purchase_code: Código de compra
+    webpay_ws_payment_with_errors: 'Ha ocurrido un error, inténtalo de nuevo utilizando un método de pago diferente.'
+    webpay_ws_thanks: Gracias por su preferencia
+    webpay_ws_payment_registered: Ya hemos registrado el pago de su pedido.
+    webpay_ws_awaiting_confirmation: Estamos esperando la confirmación del pago de su pedido.
+    webpay_ws_captured: "Pago capturado manualmente"
+    #Success
+    webpay_ws_buyer_name: "Nombre de Comprador"
+    webpay_ws_trx_date: "Fecha de transacción"
+    webpay_ws_trx_type: "Tipo de transacción"
+    webpay_ws_order_number: "Número de Orden"
+    webpay_ws_payment_type: "Tipo de pago realizado"
+    webpay_ws_auth_code: "Código de Autorización"
+    webpay_ws_card_number: "Número de Tarjeta"
+    webpay_ws_payments_quota: "Número de Cuotas"
+    webpay_ws_payments_quota_type: "Tipo de Cuotas"
+    webpay_ws_name_store: "Nombre Comercio"
+    webpay_ws_store_url: "Url Comercio"
+    webpay_ws_sale: "Venta"
+    webpay_ws_paid: "Pago"
+  payment:
+    transaction_error: "Ha habido un error al realizar el pago correctamente"

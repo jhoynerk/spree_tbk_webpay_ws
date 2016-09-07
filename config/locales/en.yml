@@ -1,0 +1,15 @@
+en:
+  spree:
+    order_state:
+      webpay_ws: webpay
+    webpay_ws_redirect: You'll be redirected to WebPay Hosted Payment Page. After completing the payment form you'll be back to the store.
+    webpay_ws_try_again_or_later: 'An error has occurred, please try again or later'
+    webpay_ws_payment_successfully_completed: Payment successfully completed
+    webpay_ws_payment_process_completed: Payment process completed
+    webpay_ws_payment_incompleted: Payment is not completed
+    purchase_code: Purchase code
+    webpay_ws_payment_with_errors: 'Errors were found, please try again using different payment methods.'
+    webpay_ws_thanks: Thanks you for your preference
+    webpay_ws_payment_registered: We have already registered the payment of your order.
+    webpay_ws_awaiting_confirmation: We are awaiting confirmation of payment of your order.
+    webpay_ws_captured: "Payment captured manually"

@@ -1,0 +1,53 @@
+<% source = payment.source %>
+<% if source.is_a?(Spree::CreditCard) %>
+  <span class="cc-type">
+    <% unless (cc_type = source.cc_type).blank? %>
+      <%= image_tag "credit_cards/icons/#{cc_type}.png" %>
+    <% end %>
+    <% if source.last_digits %>
+      <%= Spree.t(:ending_in) %> <%= source.last_digits %>
+    <% end %>
+  </span>
+  <br />
+  <span class="full-name"><%= source.name %></span>
+<% else %>
+  <% if payment.webpay? && payment.webpay_params %>
+    <dl>
+      <dt><%= Spree.t("webpay_name_store") %></dt>
+      <dd><%= @order.store.name rescue Spree::Config.site_name %></dd>
+
+      <dt><%= Spree.t("webpay_store_url") %></dt>
+      <dd><%= @order.store.default_domain rescue Spree::Config.site_url %></dd>
+
+      <dt><%= Spree.t("webpay_buyer_name") %></dt>
+      <dd><%= @order.webpay_client_name %></dd>
+
+      <dt><%= Spree.t("webpay_trx_type") %></dt>
+      <dd><%= Spree.t("webpay_sale") %></dd>
+
+      <dt><%= Spree.t("webpay_order_number") %></dt>
+      <dd><%= @order.number %></dd>
+
+      <dt><%= Spree.t("webpay_trx_date") %></dt>
+      <dd><%= @order.completed_at.to_s(:db) %></dd>
+
+      <dt><%= Spree.t("webpay_payment_type") %></dt>
+      <dd><%= payment.webpay_payment_type %></dd>
+
+      <dt><%= Spree.t("webpay_payments_quota_type") %></dt>
+      <dd><%= payment.webpay_quota_type %></dd>
+
+      <dt><%= Spree.t("webpay_payments_quota") %></dt>
+      <dd><%= payment.webpay_params['TBK_NUMERO_CUOTAS'] %></dd>
+
+      <dt><%= Spree.t("webpay_card_number") %></dt>
+      <dd><%= payment.webpay_card_number %></dd>
+      
+      <dt><%= Spree.t("webpay_auth_code") %></dt>
+      <dd><%= payment.webpay_params['TBK_CODIGO_AUTORIZACION'] %></dd>
+
+    </dl>
+  <% else %>
+    <%= content_tag(:span, payment.payment_method.name) %>
+  <% end %>  
+<% end %>
