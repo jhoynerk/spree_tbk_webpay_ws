@@ -32,7 +32,7 @@ module Spree
       #
       # Returns Token.
       def set_webpay_ws_trx_id
-        self.webpay_trx_id ||= generate_webpay_trx_id
+        self.webpay_trx_id ||= generate_webpay_ws_trx_id
       end
 
       # Public: Genera el trx_id unico.

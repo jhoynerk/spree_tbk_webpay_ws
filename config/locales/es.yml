@@ -1,5 +1,6 @@
 es:
   spree:
+    webpay_ws: Webpay
     order_state:
       webpay_ws: webpay
     webpay_ws_redirect: Usted será redirigido a página de pago de Webpay. Después de completar el formulario de pago volverá a la tienda.

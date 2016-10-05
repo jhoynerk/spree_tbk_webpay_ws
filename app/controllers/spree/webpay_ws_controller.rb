@@ -57,11 +57,11 @@ module Spree
 
           end
         end
-        redirect_to webpay_failure_path(params), alert: I18n.t('payment.transaction_error')
+        redirect_to webpay_ws_failure_path(params), alert: I18n.t('payment.transaction_error')
       rescue
-        @payment.state = 'canceled'
-        @payment.save
-        redirect_to webpay_failure_path(params), alert: I18n.t('payment.transaction_error')
+        @payment.started_processing!
+        @payment.failure!
+         redirect_to webpay_ws_failure_path(params), alert: I18n.t('payment.transaction_error')
       end
     end
 
@@ -77,13 +77,13 @@ module Spree
 
       if @payment.failed? || !@payment.accepted
         # reviso si el pago esta fallido y lo envio a la vista correcta
-        redirect_to webpay_failure_path(params) and return
+        redirect_to webpay_ws_failure_path(params) and return
       else
         if @order.completed? || @payment.accepted
           flash.notice = Spree.t(:order_processed_successfully)
           redirect_to completion_route and return
         else
-          redirect_to webpay_failure_path(params) and return
+          redirect_to webpay_ws_failure_path(params) and return
         end
 
       end

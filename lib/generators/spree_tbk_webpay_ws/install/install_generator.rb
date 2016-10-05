@@ -1,4 +1,4 @@
-module SpreeTbkWebpayWS
+module SpreeTbkWebpayWs
   module Generators
     class InstallGenerator < Rails::Generators::Base
 

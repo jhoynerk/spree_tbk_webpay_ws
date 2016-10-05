@@ -11,7 +11,7 @@
         <fieldset id="billing" data-hook>
           <legend align="center"><%= Spree.t(:payment_information) %></legend>
 
-          <h1><%= "#{Spree.t(:webpay_payment_incompleted)} Nº #{params[:TBK_ORDEN_COMPRA]}" %></h1>
+          <h1><%= "#{Spree.t(:webpay_ws_payment_incompleted)} Nº #{@payment.trx_id}" %></h1>
           <hr class="clear" />
           <p>Las posibles causas de este rechazo son:</p>
 
@@ -42,7 +42,7 @@
         </div>
       <% end %>
     <% end %>
-    
+
   </div>
 
 </div>

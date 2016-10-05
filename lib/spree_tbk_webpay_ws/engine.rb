@@ -1,4 +1,4 @@
-module SpreeTbkWebpayWS
+module SpreeTbkWebpayWs
   class Engine < Rails::Engine
     require 'spree/core'
     isolate_namespace Spree

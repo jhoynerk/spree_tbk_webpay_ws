@@ -15,15 +15,15 @@
           <legend align="center"><%= Spree.t(:payment_information) %></legend>
 
           <% if @payment.completed? %>
-            <h1><%= Spree.t(:webpay_payment_successfully_completed) %></h1>
+            <h1><%= Spree.t(:webpay_ws_payment_successfully_completed) %></h1>
 
-            <p><%= Spree.t(:webpay_payment_registered) %></p>
-            <p><%= Spree.t(:webpay_thanks) %></p>
+            <p><%= Spree.t(:webpay_ws_payment_registered) %></p>
+            <p><%= Spree.t(:webpay_ws_thanks) %></p>
 
           <% else %>
-            <h1><%= Spree.t(:webpay_payment_process_completed) %></h1>
+            <h1><%= Spree.t(:webpay_ws_payment_process_completed) %></h1>
 
-            <p><%= Spree.t(:webpay_awaiting_confirmation) %></p>
+            <p><%= Spree.t(:webpay_ws_awaiting_confirmation) %></p>
           <% end %>
 
           <h2><%= Spree.t(:purchase_code) %></h2>
