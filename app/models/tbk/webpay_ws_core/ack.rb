@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 module Tbk::WebpayWSCore
   class ACK < Base
     def initialize(token)
@@ -11,10 +10,6 @@ module Tbk::WebpayWSCore
 
     def payload
       { tokenInput: @token }
-    end
-
-    def response_body
-      ''
     end
 
   end

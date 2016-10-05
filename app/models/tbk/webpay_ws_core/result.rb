@@ -19,18 +19,12 @@ module Tbk::WebpayWSCore
       response_body[:detail_output]
     end
 
-    def details_params
-      {
-        @action.to_s => details.to_json
-      }
-    end
-
     def transaction_date
       response_body[:transaction_date].to_datetime
     end
 
     def response_body
-      call.body[:get_transaction_result_response][:return]
+      super[:get_transaction_result_response][:return]
     end
 
     private

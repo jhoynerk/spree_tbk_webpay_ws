@@ -22,7 +22,7 @@ module Tbk::WebpayWSCore
     end
 
     def response_body
-      call.body[:init_transaction_response][:return]
+      super[:init_transaction_response][:return]
     end
 
     def  details_params
@@ -40,8 +40,8 @@ module Tbk::WebpayWSCore
           'wSTransactionType' => 'TR_NORMAL_WS',
           'buyOrder' => order_number,
           'sessionId' => session_id,
-          'returnURL' =>  @return_url,
-          'finalURL' =>  @final_url,
+          'returnURL' =>  return_url,
+          'finalURL' =>  final_url,
           'transactionDetails' => {
             'amount' => amount,
             'commerceCode' => commerce_code,

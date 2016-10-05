@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module Tbk::WebpayWSCore
   class Base
-    attr_reader :response
+    attr_reader :response, :action
 
     def self.call(*args)
       new(*args).call
@@ -14,7 +14,7 @@ module Tbk::WebpayWSCore
 
     def call
       if @response.nil?
-        request = client.build_request(@action, message: payload)
+        request = client.build_request(action, message: payload)
         log_request
         signed_xml = MessageSigner.call(
           request.body,
@@ -23,7 +23,7 @@ module Tbk::WebpayWSCore
         )
 
         begin
-          @response = client.call(@action) do
+          @response = client.call(action) do
             xml signed_xml.to_xml(save_with: 0)
           end
           log_response
@@ -38,9 +38,28 @@ module Tbk::WebpayWSCore
       Verifier.call(call)
     end
 
-    def client
-      @client ||= Savon.client(wsdl: WebpayWSConfig::WSDL_NORMAL)
+    def client type = :normal
+      if type==:normal
+        @client ||= Savon.client(wsdl: WebpayWSConfig::WSDL_NORMAL)
+      elsif type == :capture || type == :nullify
+        @client ||= Savon.client(wsdl: WebpayWSConfig::WSDL_ANULACION_CAPTURA)
+      end
     end
+
+    def response_body
+      (@response || call).body
+    end
+
+    def details
+      response_body
+    end
+
+    def details_params
+      {
+        action.to_s => details.to_json
+      }
+    end
+
 
     private
 
@@ -52,13 +71,12 @@ module Tbk::WebpayWSCore
       )
     end
 
-    private
     def log_request
       Rails.logger.info(
           [
             "webpay",
             "id: #{@id}",
-            "action: @action",
+            "action: #{action}",
             "type: request",
             "payload: #{payload}",
           ].join(" | ")
@@ -70,7 +88,7 @@ module Tbk::WebpayWSCore
           [
             "webpay",
             "id: #{@id}",
-            "action: @action",
+            "action: #{action}",
             "type: response",
             "payload: #{payload}",
             "response: #{@response.try(:body)}"
