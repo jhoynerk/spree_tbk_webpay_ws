@@ -15,12 +15,12 @@ module Tbk::WebpayWSCore
       response_body[:card_detail][:card_number]
     end
 
-    def details
-      response_body[:detail_output]
-    end
-
     def transaction_date
       response_body[:transaction_date].to_datetime
+    end
+
+    def transaction_details
+      response_body[:detail_output]
     end
 
     def response_body

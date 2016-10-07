@@ -102,6 +102,7 @@ module Tbk::WebpayWSCore
     end
 
     def payload
+      raise "You need to redefine this method"
     end
 
   end

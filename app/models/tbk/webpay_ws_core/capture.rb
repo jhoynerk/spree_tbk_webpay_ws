@@ -27,7 +27,7 @@ module Tbk::WebpayWSCore
     end
 
     def response_body
-      call.body[:capture_response][:return]
+      super[:capture_response][:return]
     end
 
 

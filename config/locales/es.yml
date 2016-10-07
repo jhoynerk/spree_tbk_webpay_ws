@@ -13,6 +13,7 @@ es:
     webpay_ws_thanks: Gracias por su preferencia
     webpay_ws_payment_registered: Ya hemos registrado el pago de su pedido.
     webpay_ws_awaiting_confirmation: Estamos esperando la confirmación del pago de su pedido.
+    webpay_ws_captured?: "¿Capturado?"
     webpay_ws_captured: "Pago capturado manualmente"
     #Success
     webpay_ws_buyer_name: "Nombre de Comprador"
@@ -21,12 +22,17 @@ es:
     webpay_ws_order_number: "Número de Orden"
     webpay_ws_payment_type: "Tipo de pago realizado"
     webpay_ws_auth_code: "Código de Autorización"
-    webpay_ws_card_number: "Número de Tarjeta"
+    webpay_ws_authorization_amount: "Monto de la Transacción"
+    webpay_ws_currency: "Moneda de la Transacción"
+    webpay_ws_card_number: "Últimos dígitos de la tarjeta"
     webpay_ws_payments_quota: "Número de Cuotas"
     webpay_ws_payments_quota_type: "Tipo de Cuotas"
     webpay_ws_name_store: "Nombre Comercio"
     webpay_ws_store_url: "Url Comercio"
     webpay_ws_sale: "Venta"
     webpay_ws_paid: "Pago"
+    webpay_ws_capture_auth_code: "Código de Autorización de Captura"
+    webpay_ws_capture_amount: "Monto Capturado"
+    webpay_ws_capture_date: "Fecha Captura"
   payment:
     transaction_error: "Ha habido un error al realizar el pago correctamente"

@@ -1,9 +1,44 @@
-<% if payment.respond_to?(:webpay_params) and payment.webpay_params %>
+<% if payment.respond_to?(:webpay_params) && payment.webpay_params.present? %>
+  <% webpay_params_transaction = payment.webpay_ws_transaction_params %>
   <dl>
-    <dt>Codigo Autorización:</dt>
-    <dd><%= payment.webpay_params['TBK_CODIGO_AUTORIZACION'] %></dd>
+    <% if webpay_params_transaction.present? %>
 
-    <dt>ID Transacción:</dt>
-    <dd><%= payment.webpay_params['TBK_ID_TRANSACCION'] %></dd>
+        <dt><%= Spree.t("webpay_ws_trx_date") %>:</dt>
+        <dd><%= DateTime.iso8601(payment.webpay_ws_transaction_date).to_s(:db) %></dd>
+
+        <dt><%= Spree.t("webpay_ws_auth_code") %>:</dt>
+        <dd><%= payment.webpay_ws_authorization_code %></dd>
+
+        <dt><%= Spree.t("webpay_ws_card_number") %>:</dt>
+        <dd><%= payment.webpay_ws_card_number %></dd>
+
+        <dt><%= Spree.t("webpay_ws_payment_type") %></dt>
+        <dd><%= payment.webpay_ws_payment_type %></dd>
+
+        <dt><%= Spree.t("webpay_ws_payments_quota_type") %></dt>
+        <dd><%= payment.webpay_ws_quota_type %></dd>
+
+       <dt><%= Spree.t("webpay_ws_payments_quota") %></dt>
+       <dd><%= payment.webpay_ws_shares_number %></dd>
+
+    <% end %>
+
+     <% if WebpayWSConfig::DELAY_CAPTURE_MODE && payment.webpay_ws_capturable? %>
+        <dt><%= Spree.t("webpay_ws_captured?") %></dt>
+        <dd><%= payment.webpay_ws_captured ? "Sí": "No" %></dd>
+        <% if payment.webpay_ws_captured %>
+            <dt><%= Spree.t("webpay_ws_capture_auth_code") %>:</dt>
+            <dd><%= payment.webpay_params_values("capture")["authorization_code"] %></dd>
+
+            <dt><%= Spree.t("webpay_ws_capture_date") %>:</dt>
+            <dd><%= DateTime.iso8601(payment.webpay_params_values("capture")["authorization_date"]).to_s(:db) rescue "" %></dd>
+
+            <dt><%= Spree.t("webpay_ws_capture_amount") %>:</dt>
+            <dd><%= number_to_currency payment.webpay_params_values("capture")["captured_amount"] %></dd>
+        <% end %>
+     <% end %>
+
+    <!-- <dt>Token Transacción:</dt>
+    <dd><%= payment.webpay_params[Tbk::WebpayWSCore::Constant::TBK_TOKEN] %></dd> -->
   </dl>
 <% end %>

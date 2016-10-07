@@ -38,7 +38,7 @@ module Spree
 
       payment = Spree::Payment.find_by(identifier: payment_identifier)
       order   = payment.order
-      webpay_params = payment.webpay_params_values("get_transaction_result")
+      webpay_params = payment.webpay_ws_transaction_params["detail_output"]
       if  webpay_params.present?
         if webpay_params["response_code"]== "0"
           ActiveMerchant::Billing::Response.new(true,  make_success_message(webpay_params), {}, {})

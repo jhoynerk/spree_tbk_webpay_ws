@@ -1,18 +1,21 @@
 <div id="checkout" data-hook>
   <%= render :partial => 'spree/shared/error_messages', :locals => { :target => @order } %>
 
+<!--
   <div class="row" data-hook="checkout_header">
     <h1 class="columns three alpha" data-hook="checkout_title"><%= Spree.t(:checkout) %></h1>
     <div class="columns thirteen omega" data-hook="checkout_progress"><%= checkout_progress unless @order.blank? %></div>
   </div>
+  -->
 
   <div class="row" data-hook="checkout_content">
     <div class="col-md-9" data-hook="webpay_field_wrapper">
         <fieldset id="billing" data-hook>
           <legend align="center"><%= Spree.t(:payment_information) %></legend>
 
-          <h1><%= "#{Spree.t(:webpay_ws_payment_incompleted)} Nº #{@payment.trx_id}" %></h1>
+          <h1><%= "#{Spree.t(:webpay_ws_payment_incompleted)}" %></h1>
           <hr class="clear" />
+          <p>Orden de Compra: <%= @order.number %> </p>
           <p>Las posibles causas de este rechazo son:</p>
 
           <ul>

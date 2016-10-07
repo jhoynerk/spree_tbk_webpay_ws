@@ -31,7 +31,7 @@ module Spree
 
     def confirmation
       begin
-        token_tbk = @payment.webpay_params[Tbk::WebpayWSCore::Constant::TBK_TOKEN]
+        token_tbk = @payment.webpay_ws_token
         provider = @payment_method.provider.new
 
         webpay_results = provider.confirmation token_tbk
@@ -96,7 +96,7 @@ module Spree
     private
       def load_data
         token_params = params[Tbk::WebpayWSCore::Constant::TBK_TOKEN] ||  params[Tbk::WebpayWSCore::Constant::TBK_FAILURE_TOKEN]
-        @payment = Spree::Payment.find_by("webpay_params -> '#{Tbk::WebpayWSCore::Constant::TBK_TOKEN}' = ?", token_params)
+        @payment = Spree::Payment.by_webpay_ws_token(token_params)
 
         unless @payment.blank?
           @payment_method = @payment.payment_method

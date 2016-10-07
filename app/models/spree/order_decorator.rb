@@ -14,7 +14,7 @@ module Spree
     # Indica si la orden tiene algun pago con Webpay completado con exito
     #
     # Return TrueClass||FalseClass instance
-    def webpay_payment_completed?
+    def webpay_ws_payment_completed?
       if payments.completed.from_webpay_ws.any?
         true
       else
@@ -22,7 +22,7 @@ module Spree
       end
     end
 
-    def webpay_client_name
+    def webpay_ws_client_name
       if ship_address
         ship_address.full_name
       else

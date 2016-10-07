@@ -17,24 +17,23 @@ module Tbk
       # Returns webpay confirmation response if all is OK
       def confirmation token_tbk
         webpay_results = WebpayWSCore::Result.new(token_tbk)
-        webpay_results.call
 
         accepted = true
-        unless webpay_results.details[:response_code].to_i == 0  && webpay_results.valid? # Valid response
+        unless  webpay_results.valid? && webpay_results.transaction_details[:response_code].to_i == 0 # Valid response
           accepted = accepted && false
-          Rails.logger.info "Invalid response for #{ webpay_results.details[:buy_order]}"
+          Rails.logger.info "Invalid response for #{ webpay_results.transaction_details[:buy_order]}"
         end
-        unless order_exists?(webpay_results.details[:buy_order])
+        unless order_exists?(webpay_results.transaction_details[:buy_order])
           accepted = false
-          Rails.logger.info "Order #{ webpay_results.details[:buy_order]} not exists"
+          Rails.logger.info "Order #{ webpay_results.transaction_details[:buy_order]} not exists"
         end
-        if order_paid?(webpay_results.details[:buy_order])
+        if order_paid?(webpay_results.transaction_details[:buy_order])
           accepted = false
-          Rails.logger.info "Order #{ webpay_results.details[:buy_order]} already paid"
+          Rails.logger.info "Order #{ webpay_results.transaction_details[:buy_order]} already paid"
         end
-        unless  order_right_amount?(webpay_results.details[:buy_order], webpay_results.details[:amount].to_i)
+        unless  order_right_amount?(webpay_results.transaction_details[:buy_order], webpay_results.transaction_details[:amount].to_i)
           accepted =  false
-          Rails.logger.info "Invalid amount of response for  order #{ webpay_results.details[:buy_order]} and payment amount #{webpay_results.details[:amount]}"
+          Rails.logger.info "Invalid amount of response for  order #{ webpay_results.transaction_details[:buy_order]} and payment amount #{webpay_results.transaction_details[:amount]}"
         end
 
         if accepted
@@ -47,6 +46,22 @@ module Tbk
       # Response ACK  confirmation before 30 seconds for close transaction
       def response_ack token_tbk
         WebpayWSCore::ACK.call(token_tbk)
+      end
+
+      def webpay_capture webpay_ws_authorization_code, order_number, amount_to_capture, payment
+        capture_ws = Tbk::WebpayWSCore::Capture.new(webpay_ws_authorization_code, order_number, amount_to_capture)
+        response = capture_ws.call
+        begin
+            if response.http.code.to_i == 200 && capture_ws.response_body.present?
+              payment.update_attributes(webpay_params: payment.webpay_params.merge(capture_ws.details_params), webpay_ws_captured: true)
+              return true
+            else
+              return false
+            end
+        rescue Exception => e
+          Rails.logger.error e
+          false
+        end
       end
 
 

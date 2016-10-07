@@ -26,11 +26,9 @@ module Tbk::WebpayWSCore
     end
 
     def  details_params
-      details = payload
-      details['wsInitTransactionInput'].merge!("response" => response_body)
-      details['wsInitTransactionInput'] = details['wsInitTransactionInput'].to_json
-      details.merge(Constant::TBK_TOKEN =>  token)
+      super.merge(Constant::TBK_TOKEN =>  token)
     end
+
 
     private
 
