@@ -72,20 +72,19 @@ module Tbk::WebpayWSCore
     end
 
     def log_request
-      Rails.logger.info(
-          [
+      log_info = [
             "webpay",
             "id: #{@id}",
             "action: #{action}",
             "type: request",
             "payload: #{payload}",
           ].join(" | ")
-      )
+      Rails.logger.info log_info
+      tbk_webpay_logger.info log_info
     end
 
     def log_response
-      Rails.logger.info(
-          [
+      log_info = [
             "webpay",
             "id: #{@id}",
             "action: #{action}",
@@ -93,12 +92,23 @@ module Tbk::WebpayWSCore
             "payload: #{payload}",
             "response: #{@response.try(:body)}"
           ].join(" | ")
-      )
+      Rails.logger.info log_info
+      tbk_webpay_logger.info log_info
     end
 
     def log_error error
       Rails.logger.error error
       Rails.logger.debug error.backtrace.join("\n")
+    end
+
+    def tbk_webpay_logger
+      log_name = "tbk_webpay_#{Time.zone.now.strftime("%Y%m%d")}"
+      begin
+        MultiLogger.add_logger(log_name)
+      rescue Exception => e
+        Rails.logger.info("Logger #{log_name} already initialized")
+      end
+      return Rails.logger.send(log_name)
     end
 
     def payload

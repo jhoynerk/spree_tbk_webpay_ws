@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<selenium-webdriver>, [">= 0"])
       s.add_development_dependency(%q<simplecov>, [">= 0"])
       s.add_development_dependency(%q<sqlite3>, [">= 0"])
+      s.add_development_dependency(%q<multi_logger>, [">= 0.1"])
     else
       s.add_dependency(%q<spree_core>, ["~> 2.1.3"])
       s.add_dependency(%q<capybara>, ["~> 2.1"])
@@ -44,6 +45,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<selenium-webdriver>, [">= 0"])
       s.add_dependency(%q<simplecov>, [">= 0"])
       s.add_dependency(%q<sqlite3>, [">= 0"])
+      s.add_development_dependency(%q<multi_logger>, [">= 0.1"])
     end
   else
     s.add_dependency(%q<spree_core>, ["~> 2.1.3"])
@@ -57,5 +59,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<selenium-webdriver>, [">= 0"])
     s.add_dependency(%q<simplecov>, [">= 0"])
     s.add_dependency(%q<sqlite3>, [">= 0"])
+    s.add_development_dependency(%q<multi_logger>, [">= 0.1"])
   end
 end
