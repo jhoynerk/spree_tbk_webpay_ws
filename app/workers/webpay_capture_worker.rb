@@ -6,7 +6,7 @@ class WebpayCaptureWorker
   sidekiq_options :queue => :webpay
 
   def perform
-    Spree::Payment.webpay_ws_uncaptured.where("spree_payments.created_at <= ?", WebpayWSConfig::CAPTURE_TIME.days.ago).readonly(false).each do |payment|
+    Spree::Payment.webpay_ws_uncaptured.where("spree_payments.created_at <= ?", WebpayWSConfig::CAPTURE_TIME.days.ago).each do |payment|
         payment.capture_webpay_ws
     end
   end

@@ -68,7 +68,7 @@ module Spree
       amount_to_capture =  cap_amount || webpay_ws_authorization_amount.to_s
       if can_capture_webpay_ws?(amount_to_capture)
         provider = payment_method.provider.new
-        provider.webpay_capture webpay_ws_authorization_code, order.number, amount_to_capture, self
+        provider.webpay_capture webpay_ws_authorization_code, order.number, amount_to_capture, self.id
       end
     end
 

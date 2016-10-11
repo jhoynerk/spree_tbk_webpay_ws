@@ -48,7 +48,8 @@ module Tbk
         WebpayWSCore::ACK.call(token_tbk)
       end
 
-      def webpay_capture webpay_ws_authorization_code, order_number, amount_to_capture, payment
+      def webpay_capture webpay_ws_authorization_code, order_number, amount_to_capture, payment_id
+        payment = Spree::Payment.find payment_id
         capture_ws = Tbk::WebpayWSCore::Capture.new(webpay_ws_authorization_code, order_number, amount_to_capture)
         response = capture_ws.call
         begin
@@ -56,6 +57,7 @@ module Tbk
               payment.update_attributes(webpay_params: payment.webpay_params.merge(capture_ws.details_params), webpay_ws_captured: true)
               return true
             else
+              Rails.logger.info "Payment #{payment_id} can't be captured"
               return false
             end
         rescue Exception => e
