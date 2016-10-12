@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-# stub: spree_tbk_webpay 1.2.6 ruby lib
+# stub: spree_tbk_webpay_ws 1.2.6 ruby lib
 
 Gem::Specification.new do |s|
   s.name = "spree_tbk_webpay_ws"
@@ -45,7 +45,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<selenium-webdriver>, [">= 0"])
       s.add_dependency(%q<simplecov>, [">= 0"])
       s.add_dependency(%q<sqlite3>, [">= 0"])
-      s.add_development_dependency(%q<multi_logger>, [">= 0.1"])
+      s.add_dependency(%q<multi_logger>, [">= 0.1"])
     end
   else
     s.add_dependency(%q<spree_core>, ["~> 2.1.3"])
@@ -59,6 +59,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<selenium-webdriver>, [">= 0"])
     s.add_dependency(%q<simplecov>, [">= 0"])
     s.add_dependency(%q<sqlite3>, [">= 0"])
-    s.add_development_dependency(%q<multi_logger>, [">= 0.1"])
+    s.add_dependency(%q<multi_logger>, [">= 0.1"])
   end
 end
