@@ -74,6 +74,8 @@ module Spree
 
     # Determine if payment is  able to capture a webpay ws capture from a credit transaction
     def can_capture_webpay_ws? amount_to_capture
+      return false unless WebpayWSConfig::DELAY_CAPTURE_MODE
+
       if webpay_ws? && completed? && !webpay_ws_captured
         if webpay_ws_capturable?
           if amount_to_capture.to_i <=  amount.to_i && amount_to_capture.to_i != 0
