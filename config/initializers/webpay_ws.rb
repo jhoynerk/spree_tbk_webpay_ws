@@ -1,5 +1,5 @@
 module WebpayWSConfig
-  CONFIG = YAML.load_file(Rails.root.join("config/tbk-webpay-ws.yml"))[Rails.env]
+  CONFIG = YAML.load(ERB.new(File.read(Rails.root.join("config/tbk-webpay-ws.yml"))).result)[Rails.env]
 
   COMMERCE_CODE = CONFIG['webpay_commerce_code']
   CLIENT_CERTIFICATE = CONFIG['webpay_client_certificate']
