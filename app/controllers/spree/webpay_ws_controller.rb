@@ -25,7 +25,8 @@ module Spree
                 format.html { render text: response.body.html_safe }
               end
             end
-
+        else
+          redirect_to webpay_ws_failure_path({order_number: @order.number}), alert: I18n.t('payment.transaction_error')
         end
     end
 
@@ -37,7 +38,7 @@ module Spree
         webpay_results = provider.confirmation token_tbk
 
         if webpay_results
-          unless ['failed', 'invalid'].include?(@payment.state)
+          unless ['failed', 'invalid'].include?(@payment.state) || @order.completed?
             response_ack =  provider.response_ack token_tbk
             # If ACK is OK
             if response_ack && response_ack.http.code.to_i == 200
@@ -98,9 +99,12 @@ module Spree
         token_params = params[Tbk::WebpayWSCore::Constant::TBK_TOKEN] ||  params[Tbk::WebpayWSCore::Constant::TBK_FAILURE_TOKEN]
         @payment = Spree::Payment.by_webpay_ws_token(token_params)
 
-        unless @payment.blank?
+        if @payment.present?
           @payment_method = @payment.payment_method
           @order          = @payment.order
+        else
+          @order = Spree::Order.find_by number: params[:order_number]
+          @payment = @order.payments.order(:id).last if @order
         end
       end
 
