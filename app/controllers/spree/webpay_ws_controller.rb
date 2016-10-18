@@ -32,13 +32,17 @@ module Spree
 
     def confirmation
       begin
+        if @order.completed?
+           redirect_to completion_route and return
+        end
+
         token_tbk = @payment.webpay_ws_token
         provider = @payment_method.provider.new
 
         webpay_results = provider.confirmation token_tbk
 
         if webpay_results
-          unless ['failed', 'invalid'].include?(@payment.state) || @order.completed?
+          unless ['failed', 'invalid'].include?(@payment.state)
             response_ack =  provider.response_ack token_tbk
             # If ACK is OK
             if response_ack && response_ack.http.code.to_i == 200
