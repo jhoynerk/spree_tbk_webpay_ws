@@ -20,8 +20,9 @@ module Tbk
 
         accepted = true
         unless  webpay_results.valid? && webpay_results.transaction_details[:response_code].to_i == 0 # Valid response
-          accepted = accepted && false
+          accepted =  false
           Rails.logger.info "Invalid response for #{ webpay_results.transaction_details[:buy_order]}"
+          response_ack token_tbk # response ACK for fail status
         end
         unless order_exists?(webpay_results.transaction_details[:buy_order])
           accepted = false

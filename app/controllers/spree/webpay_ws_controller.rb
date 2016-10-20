@@ -61,8 +61,9 @@ module Spree
             end
 
           end
+        else
+          redirect_to webpay_ws_failure_path(params.merge(rejected: true)), alert: I18n.t('payment.transaction_error')
         end
-        redirect_to webpay_ws_failure_path(params), alert: I18n.t('payment.transaction_error')
       rescue
         @payment.started_processing!
         @payment.failure!
@@ -96,6 +97,7 @@ module Spree
 
     # GET spree/webpay/failure
     def failure
+      @rejected = params[:rejected]=="true"
     end
 
     private

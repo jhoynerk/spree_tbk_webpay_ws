@@ -8,6 +8,7 @@ es:
     webpay_ws_payment_successfully_completed: Pago completado con éxito
     webpay_ws_payment_process_completed: Proceso de pago completado
     webpay_ws_payment_incompleted: Transacción Fracasada
+    webpay_ws_payment_rejected: Transacción Rechazada
     purchase_code: Código de compra
     webpay_ws_payment_with_errors: 'Ha ocurrido un error, inténtalo de nuevo utilizando un método de pago diferente.'
     webpay_ws_thanks: Gracias por su preferencia
