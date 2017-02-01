@@ -41,7 +41,7 @@ module Spree
     # Devuelvela forma de pago asociada a la order, se extrae desde el ultimo payment
     #
     # Return Spree::PaymentMethod||NilClass instance
-    def webpay_payment_method
+    def webpay_ws_payment_method
       has_webpay_ws_payment_method? ? payments.valid.from_webpay_ws.order(:id).last.payment_method : nil
     end
 
