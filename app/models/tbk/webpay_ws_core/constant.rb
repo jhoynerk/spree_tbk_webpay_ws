@@ -17,7 +17,7 @@ module Tbk::WebpayWSCore
     INSTALMENT_TYPES = {
       'VN' => 'Sin Cuotas',
       'VC' => 'Cuotas Normales',
-      'VD' => 'Venta Debito',
+      'VD' => 'Venta Débito',
       'SI' => 'Sin Interés',
       'S2' => 'Sin Interés',
       'NC' => 'Sin Interés'
