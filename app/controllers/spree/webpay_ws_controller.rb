@@ -24,10 +24,10 @@ module Spree
               respond_to do |format|
                 format.html { render text: response.body.html_safe }
               end
+              return
             end
-        else
-          redirect_to webpay_ws_failure_path({order_number: @order.number}), alert: I18n.t('payment.transaction_error')
         end
+        redirect_to webpay_ws_failure_path({order_number: @order.number}), alert: I18n.t('payment.transaction_error')
     end
 
     def confirmation
@@ -43,10 +43,11 @@ module Spree
 
         if webpay_results
           unless ['failed', 'invalid'].include?(@payment.state)
-            response_ack =  provider.response_ack token_tbk
-            # If ACK is OK
-            if response_ack && response_ack.http.code.to_i == 200
-              @payment.update_attributes(webpay_params: @payment.webpay_params.merge(webpay_results.details_params), accepted: true)
+            @payment.update_attributes(webpay_params: @payment.webpay_params.merge(webpay_results.details_params))
+            response_ack =  provider.response_ack(token_tbk)
+
+            if response_ack  # If ACK is OK
+              @payment.update_attributes(webpay_params: @payment.webpay_params.merge(response_ack.details_params), accepted: true)
               Rails.logger.info "payment_state:#{@payment.state} || payment_accepted:#{@payment.accepted} || order_state:#{@order.state}" if @payment && @order
               WebpayWorker.perform_async(@payment.id, "accepted")
 
@@ -57,18 +58,17 @@ module Spree
                 end
                 return
               end
-
             end
-
           end
-        else
-          redirect_to webpay_ws_failure_path(params.merge(rejected: true)), alert: I18n.t('payment.transaction_error')
         end
-      rescue
+      rescue Exception => e
+        Rails.logger.error "Error in Payment #{@payment.id} - #{@payment.order.number}"
+        Rails.logger.error e
         @payment.started_processing!
         @payment.failure!
-         redirect_to webpay_ws_failure_path(params), alert: I18n.t('payment.transaction_error')
+         redirect_to webpay_ws_failure_path(params), alert: I18n.t('payment.transaction_error') and return
       end
+      redirect_to webpay_ws_failure_path(params.merge(rejected: true)), alert: I18n.t('payment.transaction_error')
     end
 
     def success

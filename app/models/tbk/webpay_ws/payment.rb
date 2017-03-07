@@ -46,12 +46,19 @@ module Tbk
 
       # Response ACK  confirmation before 30 seconds for close transaction
       def response_ack token_tbk
-        WebpayWSCore::ACK.call(token_tbk)
+        ack_message = WebpayWSCore::ACK.new(token_tbk)
+        response = ack_message.call
+        if response && response.http.code.to_i == 200
+          ack_message
+        else
+          Rails.logger.info "Payment with token #{token_tbk} without ACK confirmation. #{response.try(:body)}"
+          nil
+        end
       end
 
       def webpay_capture webpay_ws_authorization_code, order_number, amount_to_capture, payment_id
         payment = Spree::Payment.find payment_id
-        capture_ws = Tbk::WebpayWSCore::Capture.new(webpay_ws_authorization_code, order_number, amount_to_capture)
+        capture_ws = WebpayWSCore::Capture.new(webpay_ws_authorization_code, order_number, amount_to_capture)
         response = capture_ws.call
         begin
             if response.http.code.to_i == 200 && capture_ws.response_body.present?
