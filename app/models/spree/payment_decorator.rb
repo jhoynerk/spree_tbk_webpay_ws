@@ -3,6 +3,9 @@ module Spree
     scope :from_webpay_ws, -> { joins(:payment_method).where(spree_payment_methods: {type: Spree::Gateway::WebpayWS.to_s}) }
     scope :webpay_ws_captured,  -> { from_webpay_ws.where(webpay_ws_captured: true).completed }
     scope :webpay_ws_uncaptured,  -> { from_webpay_ws.where(webpay_ws_captured: [false, nil]).completed }
+    scope :webpay_accepted,  -> { where("webpay_params -> :key ILIKE :value", key: "get_transaction_result", value: '%response_code\":\"0%') }
+    scope :webpay_reversed,  -> { webpay_accepted.where("not exist(webpay_params, 'acknowledge_transaction')") }
+    scope :webpay_paid, -> { webpay_accepted.where("exist(webpay_params, 'acknowledge_transaction')") }
 
     after_initialize :set_webpay_ws_trx_id
 
