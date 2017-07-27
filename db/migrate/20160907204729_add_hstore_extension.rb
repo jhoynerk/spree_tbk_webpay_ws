@@ -1,9 +1,13 @@
 class AddHstoreExtension < ActiveRecord::Migration
-   def up
-    execute 'CREATE EXTENSION IF NOT EXISTS hstore'
+  def up
+    if ActiveRecord::Base.connection.adapter_name.downcase == 'postgresql'
+      execute 'CREATE EXTENSION IF NOT EXISTS hstore'
+    end
   end
 
   def down
-    execute 'DROP EXTENSION hstore'
+    if ActiveRecord::Base.connection.adapter_name.downcase == 'postgresql'
+      execute 'DROP EXTENSION hstore'
+    end
   end
 end
