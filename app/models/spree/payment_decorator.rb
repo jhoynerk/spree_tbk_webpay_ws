@@ -10,7 +10,7 @@ module Spree
     after_initialize :set_webpay_ws_trx_id
 
     def self.by_webpay_ws_token token
-      self.find_by("webpay_params -> '#{Tbk::WebpayWSCore::Constant::TBK_TOKEN}' = ?", token)
+      self.find_by(webpay_token: token)
     end
 
     def webpay_ws?
