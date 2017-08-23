@@ -25,11 +25,8 @@ module Spree
     def webpay_ws_client_name
       if ship_address
         ship_address.full_name
-      else
-        "#{user.firstname} #{user.lastname}"
       end
     end
-
 
     # Indica si la orden tiene asociado un pago por Webpay
     #
